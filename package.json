@@ -1,0 +1,22 @@
+{
+  "name": "erc721token",
+  "version": "1.0.0",
+  "description": "This will provide an erc721 token template to work from.",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vvdhout/erc721_box.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vvdhout/erc721_box/issues"
+  },
+  "homepage": "https://github.com/vvdhout/erc721_box#readme"
+}
