@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/vvdhout/erc721_box/issues"
   },
-  "homepage": "https://github.com/vvdhout/erc721_box#readme"
+  "homepage": "https://github.com/vvdhout/erc721_box#readme",
+  "dependencies": {
+    "openzeppelin-solidity": "^2.0.0"
+  }
 }

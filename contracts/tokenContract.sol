@@ -1,23 +1,16 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.4.24;
 
-import './ERC721Token.sol';
+import 'openzeppelin-solidity/contracts/token/ERC721/ERC721Full.sol';
+import 'openzeppelin-solidity/contracts/token/ERC721/ERC721Mintable.sol';
 
-contract tokenContract is ERC721Token {
-    
-    // Create owner variable
-    address private owner;
-    
-    // Constructor for initializing the contract and setting the owner to msg.sender
+contract tokenContract is ERC721Full, ERC721Mintable {
+
+    address owner private;
+
     constructor() public {
         owner == msg.sender;
     }
-    
-    // Creating an onlyContractOwner variable
-    modifier onlyContractOwner() {
-        require(msg.sender == owner);
-        _;
-    }
 
-    // Do more...
+    // Smart contract code...
 
 }
