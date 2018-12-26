@@ -24,4 +24,20 @@ contract("sweetApp test", async accounts => {
     assert.equal(result[1], "Banana", "type of fruit was not equal to 'Banana'");
   })
 
+  it("should be able to put a fruit on sale (onlyFruitOwner)", async () => {
+    // Get deployed contract
+    let instance = await tokenContract.deployed();
+                // // Non-owner should fail to put it on sale
+                // await instance.putOnSale(1, 50100100, {from: accounts[1]});
+                // let resultF = await instance.isOnSale(1)
+                // assert.equal(resultF[0], false, "a non-owner was able to put it on sale");
+    // Owner should be able to put their fruit on sale
+    console.log(accounts[0]);
+    let owner = await instance.ownerOf(1, {from: accounts[0]})
+    console.log(owner);
+    await instance.putOnSale(1, 50100100);
+    let resultT = await instance.isOnSale(1)
+    assert.equal(resultT[0], true, "owner was not able to put it on sale");
+  })
+
 });
