@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/vvdhout/erc721_box#readme",
   "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
     "openzeppelin-solidity": "^2.0.0"
   }
 }
