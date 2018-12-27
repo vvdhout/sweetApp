@@ -26,6 +26,9 @@ contract tokenContract is ERC721 {
     
     // Map a tokenId to its selling price (default is 0 meaning it is not on sale)
     mapping (uint256 => uint256) fruitOnSale;
+
+    // Map a tokenId to reserved addresses
+    mapping (uint256 => address) reservedBuyer;
     
 
     constructor() public {
@@ -80,5 +83,41 @@ contract tokenContract is ERC721 {
         }
         return(onsale, fruitOnSale[_tokenId]);
     }
+
+
+    // Set a reserved buyer
+    function setReserved(uint256 _tokenId, address _buyer) public isFruitOwner(_tokenId) {
+        reservedBuyer[_tokenId] = _buyer;
+        approve(_buyer, _tokenId);
+    }
+
+    // Get reserved buyer
+    function getReserved(uint256 _tokenId) public view returns(address) {
+        return(reservedBuyer[_tokenId]);
+    }
+    
+    // Buy a fruit
+    function buyFruit(uint256 _tokenId) public payable {
+        // Check if the fruit is on sale // Check if the msg.value is >= price
+        require(fruitOnSale[_tokenId] > 0 && msg.value >= fruitOnSale[_tokenId]);
+        // Check if the msg.sender is allowed to buy
+        require(reservedBuyer[_tokenId] == address(0) || reservedBuyer[_tokenId] == msg.sender);
+        // Remove reserved buyer 
+        reservedBuyer[_tokenId] == address(0);
+        // Set a seller memory variable
+        address seller = ownerOf(_tokenId);
+        // Set price memory variable
+        uint256 price = fruitOnSale[_tokenId];
+        // Take fruit out of sale
+        fruitOnSale[_tokenId] = 0;
+        // Change the owner of the token (which also clears approvals)
+        transferFrom(seller, msg.sender, _tokenId);
+        // Transfer money from the contract to the seller
+        seller.transfer(price);
+        // Return change 
+        msg.sender.transfer(msg.value - price);
+    }
+
+
 
 }

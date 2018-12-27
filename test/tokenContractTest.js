@@ -32,12 +32,29 @@ contract("sweetApp test", async accounts => {
                 // let resultF = await instance.isOnSale(1)
                 // assert.equal(resultF[0], false, "a non-owner was able to put it on sale");
     // Owner should be able to put their fruit on sale
-    console.log(accounts[0]);
     let owner = await instance.ownerOf(1, {from: accounts[0]})
-    console.log(owner);
     await instance.putOnSale(1, 50100100);
     let resultT = await instance.isOnSale(1)
     assert.equal(resultT[0], true, "owner was not able to put it on sale");
+  })
+
+  it("can set a reserved buyer", async () => {
+    let instance = await tokenContract.deployed();
+    await instance.setReserved(1, accounts[2]);
+    assert.equal(await instance.getReserved(1), accounts[2], "Reserved address is not the same.")
+  })
+
+  it("should allow a user to buy an item", async() => {
+    let instance = await tokenContract.deployed();
+    // await instance.buyFruit(1, {value: 60100100, from: accounts[4]});
+    // let ownerF = await instance.ownerOf(1);
+    // assert.equal(ownerF, accounts[0], "owner has been changed even though there was no permission");
+    // await instance.buyFruit(1, {value: 30100100, from: accounts[2]});
+    // let ownerF2 = await instance.ownerOf(1);
+    // assert.equal(ownerF2, accounts[0], "owner has been changed even though msg.value was to low");
+    await instance.buyFruit(1, {value: 60100100, from: accounts[2]});
+    let ownerT = await instance.ownerOf(1);
+    assert.equal(ownerT, accounts[2], "reserved buyer was not able to buy even though msg.value was higher than price");
   })
 
 });
